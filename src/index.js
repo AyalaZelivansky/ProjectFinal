@@ -6,15 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 // import toDoSlice from './comp/toDoPage/store/toDoSlice';
-import ToDoSlice from './comp/toDoPage/store/toDoSlice'
+import ToDoSlice from './store/toDoSlice'
 import { Provider } from 'react-redux';
-
+import PostSlice from './store/postSlice';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const myStore = configureStore({
   reducer: {
-    ToDoSlice
+    ToDoSlice,
+    PostSlice
   }
 })
 root.render(
