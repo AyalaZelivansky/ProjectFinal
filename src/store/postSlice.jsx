@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-const todo = {
-    todoArr: [{
+const post = {
+    postArr: [{
         id: 0,
         nameWirter: "Ayala",
         nameBook: "my life",
@@ -44,11 +44,11 @@ const todo = {
 }
 
 
-const ToDoSlice = createSlice({
-    name: "todo",
-    initialState: todo,
+const PostSlice = createSlice({
+    name: "post",
+    initialState: post,
     reducers: {
-        showToDoList: (state, actions) => {
+        showPost: (state, actions) => {
             // state.bookaArr.map((item) => {
             //     return (
             //         < div key={item.id}>
@@ -62,5 +62,5 @@ const ToDoSlice = createSlice({
 
     }
 })
-export const { showToDoList } = ToDoSlice.actions
-export default ToDoSlice.reducer
+export const { showPost } = PostSlice.actions
+export default PostSlice.reducer

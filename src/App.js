@@ -6,6 +6,7 @@ import Try from './comp/HomePage/try';
 import { Routes, Route, Link } from 'react-router-dom'
 import Home from './comp/HomePage/home';
 import ToDo from './comp/toDoPage/toDo';
+import Post from './comp/PostPage/post';
 
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
       <ResponsiveAppBar />
       {/* <Home /> */}
       <Routes>
-        <Route path="Post" element={<Try />} />
+        <Route path="Post" element={<Post />} />
         <Route path="/" element={<Home />} />
         <Route path="Todo" element={<ToDo />} />
 
