@@ -1,7 +1,6 @@
 import { useEffect } from "react"
 import { useSelector, useDispatch } from 'react-redux'
-// import ToDoShow from "./todoShow"
-import CardShow from "./toDoShow"
+import ToDoShow from "./ToDoShowP"
 
 const ToDo = () => {
 
@@ -16,7 +15,7 @@ const ToDo = () => {
             toDolist.map((item) => {
                 console.log("tryy");
                 return (
-                    <CardShow id={item.id} text={item.nameWirter} />
+                    <ToDoShow id={item.id} text={item.nameWirter} />
                 )
             })
         }</div>

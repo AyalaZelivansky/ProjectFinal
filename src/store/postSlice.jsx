@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const post = {
     postArr: [{
         id: 0,
-        nameWirter: "Ayala",
+        nameWirter: "Ayala aaaa ssssssssssssss ddddddddddddd ddddddddddddddddddd fffffffffffff rrrrrrrrrrrrrr ttttttttttt rererere uuuuuuuuuuu kkkkkkkkkkkkkkk lllllllllllll aaaaaaaaaa cccccccccccccc ddddddddddd jjjjjjjj lllllllllll jjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjj",
         nameBook: "my life",
         price:8
     }, {
@@ -48,19 +48,22 @@ const PostSlice = createSlice({
     name: "post",
     initialState: post,
     reducers: {
-        showPost: (state, actions) => {
-            // state.bookaArr.map((item) => {
-            //     return (
-            //         < div key={item.id}>
-            //             <div>{item.nameBook}</div>
-            //             <div>{item.nameWirter}</div>
-            //         </div >
-            //     )
-            // })
-           
-        }
+        editing: (state, actions) => {
+            state.todoArr.map((item) => {
+
+                if (item.id === actions.payload.id) {
+                    item.nameWirter = actions.payload.newInput;
+
+                }
+                console.log(item);
+
+            })
+
+
+
+        },
 
     }
 })
-export const { showPost } = PostSlice.actions
+export const { editing } = PostSlice.actions
 export default PostSlice.reducer
