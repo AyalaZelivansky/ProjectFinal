@@ -7,6 +7,7 @@ import { Routes, Route, Link } from 'react-router-dom'
 import Home from './comp/HomePage/home';
 import ToDo from './comp/toDoPage/toDo';
 import Post from './comp/PostPage/post';
+import User from './comp/UsersPage/Users'
 
 
 function App() {
@@ -19,9 +20,7 @@ function App() {
         <Route path="Post" element={<Post />} />
         <Route path="/" element={<Home />} />
         <Route path="Todo" element={<ToDo />} />
-
-
-      
+        <Route path="Users" element={<User />} />   
       </Routes>
 
     </div>

@@ -7,12 +7,16 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useSelector, useDispatch } from 'react-redux'
-import { editing,deleteItem } from '../../store/toDoSlice';
+import { editing, deleteItem } from '../../store/toDoSlice';
+import { todoPut, todoPost } from '../../store/toDoSlice';
+import { postPost, postPut } from '../../store/postSlice';
 
 
 export default function FormDialog(props) {
-    // const { id, name, statos } = { ...props };
-    const toDolist = useSelector((myStore) => myStore.ToDoSlice.todoArr)
+    const toDolist = useSelector((myStore) => myStore.ToDoSlice.arr)
+    const posts = useSelector((myStore) => myStore.PostSlice.arr)
+
+
     const dispatch = useDispatch()
 
 
@@ -27,20 +31,74 @@ export default function FormDialog(props) {
 
     };
 
-    const handleClose1 = (props) => {
+    const func = (props) => {
+        if (props.page == "addToDo")
+            addToDoFunc(props)
+        if (props.page == "editingToDo")
+            editingToDoFunc(props)
+        if (props.page = "editingPost")
+            editingPostFunc(props)
+        if (props.page = "addPost")
+            addPostFunc(props)
+        console.log(props);
+
+    };
+    const editingToDoFunc = (props) => {
         setOpen(false);
-        const newToDoItem={
-            newInput:label,
-            id:props.id
+        const newToDoItem = {
+            name: label,
+            id: props.id,
+            createDate: props.createDate,
+            complated: props.complated
         }
-        // dispatch(editing(newToDoItem))
-        dispatch(deleteItem(newToDoItem))
+
+        dispatch(todoPut(newToDoItem))
 
         console.log("dispatch");
     };
+    const editingPostFunc = (props) => {
+        setOpen(false);
+        debugger
+        const newPostItem = {
+            content: label,
+            id: props.id,
+            like: posts[0].like
+
+        }
+
+        dispatch(postPut(newPostItem))
+
+        console.log("dispatch");
+    };
+    const addToDoFunc = (props) => {
+
+        const newToDoItem = {
+            // name:toDolist[0].name,
+            // createDate:toDolist[0].createDate,
+            // complated:toDolist[0].complated
+            name: label,
+            createDate: toDolist[0].createDate,
+            complated: toDolist[0].complated
+        }
+        console.log(label);
+
+        dispatch(todoPost(newToDoItem))
+
+    };
+    const addPostFunc = (props) => {
+
+        const newPostItem = {
+            content: label,
+            like: posts[0].like
+        }
+        console.log(label);
+
+        dispatch(postPost(newPostItem))
+
+    };
     const handleClose2 = () => {
         setOpen(false);
-      
+
     };
 
     return (
@@ -49,9 +107,7 @@ export default function FormDialog(props) {
         Open form dialog
       </Button> */}
             <Dialog open={open} onClose={handleClose2}>
-                <DialogTitle>עריכה</DialogTitle>
                 <DialogContent>
-
                     <TextField
                         autoFocus
                         margin="dense"
@@ -66,7 +122,7 @@ export default function FormDialog(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose2}>Cancel</Button>
-                    <Button onClick={()=>handleClose1(props)}>Subscribe</Button>
+                    <Button onClick={() => func(props)}>Subscribe</Button>
                     {/* <Button onClick={() => dispatch(editing(label, props.id))}>Subscribe</Button> */}
 
                 </DialogActions>

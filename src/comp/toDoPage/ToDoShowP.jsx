@@ -15,58 +15,56 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FormDialog from "./Editing"
+import { useSelector, useDispatch } from 'react-redux';
+import { todoDelete } from '../../store/toDoSlice';
 
 
 
 
-export default function ToDoShow(props) {
+const ToDoShow = (props) => {
     const [open, setOpen] = React.useState(false);
-
+    const dispatch = useDispatch()
 
     const handleClickOpen = () => {
         setOpen(true);
-        // console.log({ open });
-        // return (
-        //     <FormDialog text={props.text} />
-        // )
-
-
     };
+
 
     const handleClose = () => {
         setOpen(false);
-        // console.log({ open });
-
+    };
+    const deletee = (p) => {
+        dispatch(todoDelete(p))
     };
 
-    
-    return (
 
-        <Card sx={{ minWidth: 275 }} style={{ margin: 'auto', marginTop: '20px' }}>
-            <CardContent>
-                <FormControlLabel control={<Checkbox />} />
-                <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {props.id}
-                </Typography>
-                <Typography variant="body2">
-                    {props.text}
-                    <br />
-                </Typography>
-                <Typography variant="body2">
-                    {/* {props.time} */}
-                    <br />
-                    {/* {'"a benevolent smile"'} */}
-                </Typography>
-            </CardContent>
-            <CardActions style={{ justifyContent: 'space-evenly' }}>
-                <Button size="small" variant="outlined"> <DeleteIcon /></Button>
-                {/* <React.Fragment> */}
-                {/* <Button size="small" variant="outlined" onClick={handleClickOpen}> */}
-                <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
-                    {open && <FormDialog text={props.text} id={props.id} />}
-                    <CreateIcon />
-                </Button>
-                {/* <Dialog open={open} onClose={handleClose}>
+    return (
+        <>
+            <Card sx={{ minWidth: 275 }} style={{ margin: 'auto', marginTop: '20px' }}>
+                <CardContent>
+                    <FormControlLabel control={<Checkbox />} />
+                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                        {props.id}
+                    </Typography>
+                    <Typography variant="body2">
+                        {props.text}
+                        <br />
+                    </Typography>
+                    <Typography variant="body2">
+                        {/* {props.time} */}
+                        <br />
+                        {/* {'"a benevolent smile"'} */}
+                    </Typography>
+                </CardContent>
+                <CardActions style={{ justifyContent: 'space-evenly' }}>
+                    <Button size="small" variant="outlined" onClick={() => deletee(props.id)}> <DeleteIcon /></Button>
+                    {/* <React.Fragment> */}
+                    {/* <Button size="small" variant="outlined" onClick={handleClickOpen}> */}
+                    <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
+                        {open && <FormDialog text={props.text} id={props.id} createDate={props.createDate} complated={props.complated} page={"editingToDo"} />}
+                        <CreateIcon />
+                    </Button>
+                    {/* <Dialog open={open} onClose={handleClose}>
                         <DialogTitle>עריכה</DialogTitle>
                         <DialogContent>
                           
@@ -85,8 +83,10 @@ export default function ToDoShow(props) {
                             <Button onClick={handleClose}>Subscribe</Button>
                         </DialogActions>
                     </Dialog> */}
-                {/* </React.Fragment> */}
-            </CardActions>
-        </Card>
+                    {/* </React.Fragment> */}
+                </CardActions>
+            </Card>
+        </>
     );
 }
+export default ToDoShow
