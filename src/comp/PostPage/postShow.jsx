@@ -13,23 +13,22 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useSelector,useDispatch } from 'react-redux';
+import { postDelete } from '../../store/postSlice';
 
 export default function PostShow(props) {
 
     const [expanded, setExpanded] = React.useState(false);
-    // const [first50Words, setFirst50Words] = React.useState("")
-    // const [after50Words, setAfter50Words] = React.useState("")
+    const dispatch = useDispatch()
+
 
     const [longText, setLongText] = React.useState(props.text)
 
-    // const y = props.text
     const first50Words = longText.slice(0, 20);
-    // setFirst50Words(longText.slice(0,2))
     const after50Words = longText.slice(20)
-    // setAfter50Words(longText.slice(2))
 
 
-    console.log(first50Words);
+    // console.log(first50Words);
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -51,18 +50,22 @@ export default function PostShow(props) {
 
     const changeColor1 = () => {
 
-        console.log("col");
+        // console.log("col");
         setFavoriteIconColor(true);
         setFavoriteIconBasic(false)
 
     }
     const changeColor2 = () => {
 
-        console.log("col");
+        // console.log("col");
         setFavoriteIconColor(false);
         setFavoriteIconBasic(true)
 
     }
+
+    const deletee = (p) => {
+        dispatch(postDelete(p))
+    };
     return (
 
         <Card sx={{ minWidth: 275 }} style={{ margin: 'auto', marginTop: '20px' }}>
@@ -109,9 +112,9 @@ export default function PostShow(props) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" variant="outlined"> <DeleteIcon /></Button>
+                <Button size="small" variant="outlined" onClick={()=>{deletee(props.id)}}> <DeleteIcon /></Button>
                 <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
-                    {open && <FormDialog text={props.text} />}
+                    {open && <FormDialog text={longText} page={"editingPost"} id={props.id} />}
                     <CreateIcon />
                 </Button>
             </CardActions>

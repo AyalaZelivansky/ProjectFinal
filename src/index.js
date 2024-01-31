@@ -9,13 +9,18 @@ import { configureStore } from '@reduxjs/toolkit';
 import ToDoSlice from './store/toDoSlice'
 import { Provider } from 'react-redux';
 import PostSlice from './store/postSlice';
+// import UsersSlice from './store/usersSlice';
 
+import UserSlice from './store/UsersSlice'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 const myStore = configureStore({
+  
   reducer: {
     ToDoSlice,
-    PostSlice
+    PostSlice,
+    UserSlice
+    
   }
 })
 root.render(
