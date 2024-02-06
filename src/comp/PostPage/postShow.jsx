@@ -23,17 +23,9 @@ const PostShow = (props) => {
     const [longText, setLongText] = useState(props.text);
     const [open, setOpen] = useState(false);
     const [favoriteIconColor, setFavoriteIconColor] = useState(props.like);
-    // const [favoriteIconColor, setFavoriteIconColor] = useState(0);
-
     const [favoriteIconBasic, setFavoriteIconBasic] = useState(!props.like);
-    // const [favoriteIconBasic, setFavoriteIconBasic] = useState(1);
-
-    // console.log("favoriteIconBasic "+favoriteIconBasic);
-    // console.log("favoriteIconColor "+favoriteIconColor);
-
     const first50Words = longText.slice(0, 20);
     const after50Words = longText.slice(20);
-    const posts = useSelector((myStore) => myStore.PostSlice.arr)
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
@@ -42,42 +34,18 @@ const PostShow = (props) => {
     const handleClickOpen = () => {
         setOpen(true);
     };
-    // useEffect(() => {
-    //     console.log(favoriteIconColor);
-    // }, [favoriteIconColor]);
-
-    const func = () => {
-        console.log(posts[1]);
-        dispatch(postPutLike(posts[1]))
-
-    }
-
+  
     const changeColor2 = () => {
-        console.log("favoriteIconColor" + favoriteIconColor);
-        console.log("favoriteIconBasic" + favoriteIconBasic);
-        debugger
-        setFavoriteIconColor(1);
-        setFavoriteIconBasic(2);
-        console.log("favoriteIconColor" + favoriteIconColor);
-        console.log("favoriteIconBasic" + favoriteIconBasic);
-
-        func()
-
-        // dispatch(postPutLike({ id: props.id, like: favoriteIconColor }))
-
-        // setFavoriteIconColor(!favoriteIconBasic);
-        // setFavoriteIconBasic(!favoriteIconColor);
+       
+        setFavoriteIconColor(false);
+        setFavoriteIconBasic(true);
+        dispatch(postPutLike({ id: props.id, like: false,content:props.text }))
     }
     const changeColor1 = () => {
-        // debugger
-        // console.log("favoriteIconColor" + favoriteIconColor);
-        // console.log("favoriteIconBasic" + favoriteIconBasic);
+       
         setFavoriteIconColor(true);
         setFavoriteIconBasic(false);
-        // console.log("favoriteIconColor" + favoriteIconColor);
-        // console.log("favoriteIconBasic" + favoriteIconBasic);
-        // dispatch(postPutLike({ id: props.id, like: favoriteIconColor }))
-        func()
+        dispatch(postPutLike({ id: props.id, like: true,content:props.text }))
     }
 
     const deletee = (p) => {
@@ -95,8 +63,6 @@ const PostShow = (props) => {
             <CardContent style={{ height: '180px' }}>
                 {favoriteIconBasic && <FavoriteIcon onClick={changeColor1} />}
                 {favoriteIconColor && <FavoriteIcon color="success" onClick={changeColor2} />}
-                {/* {favoriteIconBasic && <FavoriteIcon onClick={() => { dispatch(postPutLike({ id: props.id, like: true })) }} />}
-                {favoriteIconColor && <FavoriteIcon color="success" onClick={() => { dispatch(postPutLike({ id: props.id, like: false })) }} />} */}
 
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
                     {props.id}
@@ -142,7 +108,7 @@ const PostShow = (props) => {
                 <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
                     <CreateIcon />
                 </Button>
-                {open && <FormDialog text={longText} page={"editingPost"} id={props.id} openFunc={onClose} like={favoriteIconColor} />}
+                {open && <FormDialog text={longText} page={"editingPost"} id={props.id} openFunc={onClose} like={favoriteIconColor}  p={{todo:false,user:false,post:true}} />}
             </CardActions>
 
         </Card >

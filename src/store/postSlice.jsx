@@ -32,8 +32,8 @@ const PostSlice = createSlice({
             const put = async () => {
                 try {
                     debugger
-console.log(actions.payload);
-                    const res = await axios.put('https://localhost:44303/PostLikePut' + actions.payload.id,actions.payload)
+                    console.log(actions.payload);
+                    const res = await axios.put('https://localhost:44303/PostLikePut' + actions.payload.id, actions.payload)
                     alert("good put")
                 } catch (error) {
                     console.log(error);
@@ -48,7 +48,7 @@ console.log(actions.payload);
             httpDelete('https://localhost:44303/PostDelete' + actions.payload)
             console.log(actions.payload);
         },
-         postPost: (state, actions) => {
+        postPost: (state, actions) => {
             const httpPost = UsePost()
             httpPost('https://localhost:44303/PostPost', actions.payload)
 
