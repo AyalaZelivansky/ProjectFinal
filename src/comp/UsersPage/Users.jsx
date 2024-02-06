@@ -28,7 +28,7 @@ const User = () => {
                 <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
                     add
                 </Button>
-                {open && <FormDialog page={"addUser"} openFunc={onClose} />}
+                {open && <FormDialog page={"addUser"} openFunc={onClose} p={{todo:false,user:true,post:false}}/>}
 
                 {
                     users.map((item) => {

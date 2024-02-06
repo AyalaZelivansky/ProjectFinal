@@ -15,7 +15,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useDispatch } from 'react-redux';
 import { postDelete, postPutLike } from '../../store/postSlice';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 const PostShow = (props) => {
     const dispatch = useDispatch();

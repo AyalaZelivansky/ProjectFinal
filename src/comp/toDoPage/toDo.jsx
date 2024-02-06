@@ -25,7 +25,7 @@ const ToDo = () => {
             <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
                     add
                 </Button>
-                {open && <FormDialog page={"addToDo"} openFunc={onClose}/>}
+                {open && <FormDialog page={"addToDo"} openFunc={onClose} p={{todo:true,user:false,post:false}}/>}
 
             {
 
