@@ -6,19 +6,11 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FormDialog from "./Editing"
-import { useSelector, useDispatch } from 'react-redux';
+import FormDialog from "../Editing";
+import { useDispatch } from 'react-redux';
 import { todoDelete } from '../../store/toDoSlice';
-
-
 
 
 const ToDoShow = (props) => {
@@ -29,14 +21,13 @@ const ToDoShow = (props) => {
         setOpen(true);
     };
 
-
-    const handleClose = () => {
-        setOpen(false);
-    };
     const deletee = (p) => {
         dispatch(todoDelete(p))
     };
 
+    const onClose = async () => {
+        await setOpen(false);
+    };
 
     return (
         <>
@@ -51,39 +42,17 @@ const ToDoShow = (props) => {
                         <br />
                     </Typography>
                     <Typography variant="body2">
-                        {/* {props.time} */}
-                        <br />
-                        {/* {'"a benevolent smile"'} */}
+                        {props.createDate}
                     </Typography>
                 </CardContent>
                 <CardActions style={{ justifyContent: 'space-evenly' }}>
                     <Button size="small" variant="outlined" onClick={() => deletee(props.id)}> <DeleteIcon /></Button>
-                    {/* <React.Fragment> */}
-                    {/* <Button size="small" variant="outlined" onClick={handleClickOpen}> */}
                     <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
-                        {open && <FormDialog text={props.text} id={props.id} createDate={props.createDate} complated={props.complated} page={"editingToDo"} />}
                         <CreateIcon />
                     </Button>
-                    {/* <Dialog open={open} onClose={handleClose}>
-                        <DialogTitle>עריכה</DialogTitle>
-                        <DialogContent>
-                          
-                            <TextField
-                                autoFocus
-                                margin="dense"
-                                id="name"
-                                label={props.text}
-                                type="text"
-                                fullWidth
-                                variant="standard"
-                            />
-                        </DialogContent>
-                        <DialogActions>
-                            <Button onClick={handleClose}>Cancel</Button>
-                            <Button onClick={handleClose}>Subscribe</Button>
-                        </DialogActions>
-                    </Dialog> */}
-                    {/* </React.Fragment> */}
+                    {open && <FormDialog text={props.text} id={props.id} createDate={props.createDate} complated={props.complated} page={"editingToDo"} openFunc={onClose} p={{todo:true,user:false,post:false}}/>}
+
+                   
                 </CardActions>
             </Card>
         </>

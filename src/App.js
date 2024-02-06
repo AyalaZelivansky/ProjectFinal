@@ -1,26 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
-// import ResponsiveAppBar from './comp/HomePage/NavTop';
 import ResponsiveAppBar from './comp/HomePage/NavTop';
-import Try from './comp/HomePage/try';
 import { Routes, Route, Link } from 'react-router-dom'
 import Home from './comp/HomePage/home';
-import ToDo from './comp/toDoPage/toDo';
-import Post from './comp/PostPage/post';
-import User from './comp/UsersPage/Users'
+import React, { Suspense } from 'react';
 
 
 function App() {
+  const LazyUser = React.lazy(() => import("./comp/UsersPage/Users"))
+  const LazyTodo = React.lazy(() => import("./comp/toDoPage/toDo"))
+  const LazyPost = React.lazy(() => import("./comp/PostPage/post"))
+
   return (
     <div className="App">
 
       <ResponsiveAppBar />
-      {/* <Home /> */}
       <Routes>
-        <Route path="Post" element={<Post />} />
         <Route path="/" element={<Home />} />
-        <Route path="Todo" element={<ToDo />} />
-        <Route path="Users" element={<User />} />   
+        <Route path="Post" element={<Suspense fallback="lodaing.."><LazyPost /></Suspense>} />
+        <Route path="Todo" element={<Suspense fallback="lodaing.."><LazyTodo /></Suspense>} />
+        <Route path="Users" element={<Suspense fallback="lodaing.."><LazyUser /></Suspense>} />
       </Routes>
 
     </div>

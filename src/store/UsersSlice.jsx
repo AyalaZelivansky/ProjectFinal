@@ -1,68 +1,44 @@
 import { createSlice } from '@reduxjs/toolkit'
-const users = {
-    usersArr: [{
-        id: 0,
-        nameWirter: "Ayala aaaa ssssssssssssss ddddddddddddd ddddddddddddddddddd fffffffffffff rrrrrrrrrrrrrr ttttttttttt rererere uuuuuuuuuuu kkkkkkkkkkkkkkk lllllllllllll aaaaaaaaaa cccccccccccccc ddddddddddd jjjjjjjj lllllllllll jjjjjjjjjjjjjjjjj jjjjjjjjjjjjjjjjjjjj",
-        nameBook: "my life",
-        price:8
-    }, {
-        id: 1,
-
-        nameWirter: "Rut",
-        nameBook: "A",
-        price:8
-
-    }, {
-        id: 2,
-
-        nameWirter: "a",
-        nameBook: "b",
-        price:8
-
-    }, {
-        id: 3,
-
-        nameWirter: "a",
-        nameBook: "c",
-        price:8
-
-    }, {
-        id: 4,
-
-        nameWirter: "a",
-        nameBook: "d",
-        price:8
-
-    }, {
-        id: 5,
-
-        nameWirter: "a",
-        nameBook: "e",
-        price:8
-
-    }]
+import UseGet from '../hooks/useGet';
+import UsePut from '../hooks/usePut';
+import UseDelete from '../hooks/useDelete';
+import UsePost from '../hooks/usePost';
+const userArr = {
+    arr: []
 }
 
 
 const UserSlice = createSlice({
     name: "user",
-    initialState: users,
+    initialState: userArr,
     reducers: {
-        editing: (state, actions) => {
-            state.usersArr.map((item) => {
+        userGet: (state, actions) => {
+            
+            const [httpGet, res] = UseGet();
+            httpGet('https://localhost:44303/UserGet')
+            state.arr = res
 
-                if (item.id === actions.payload.id) {
-                    item.nameWirter = actions.payload.newInput;
-                }
-                console.log(item);
+        },
+        userPut: (state, actions) => {
+            const httpPut = UsePut();
+            httpPut('https://localhost:44303/UserPut' + actions.payload.id, actions.payload)
 
-            })
+            console.log(actions.payload);
+        },
+        userDelete: (state, actions) => {
 
-
+            const httpDelete = UseDelete();
+            httpDelete('https://localhost:44303/UserDelete' + actions.payload)
+            console.log(actions.payload);
+        },
+        userPost: (state, actions) => {
+            const httpPost = UsePost()
+            httpPost('https://localhost:44303/UserPost', actions.payload)
 
         },
 
+
     }
 })
-export const { editing } = UserSlice.actions
+export const { userGet,userPut,userDelete,userPost } = UserSlice.actions
 export default UserSlice.reducer

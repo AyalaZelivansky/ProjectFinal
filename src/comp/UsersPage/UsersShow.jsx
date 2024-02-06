@@ -6,13 +6,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FormDialog from '../toDoPage/Editing';
+import FormDialog from "../Editing";
+import {  useDispatch } from 'react-redux'
+import { userDelete } from '../../store/UsersSlice';
 
 
 
-
-export default function UserShow(props) {
+ const UserShow=(props)=> {
     const [open, setOpen] = React.useState(false);
+    const dispatch = useDispatch()
 
 
     const handleClickOpen = () => {
@@ -20,29 +22,33 @@ export default function UserShow(props) {
 
     };
 
-    const handleClose = () => {
-        setOpen(false);
-
+    const deletee = (p) => {
+        dispatch(userDelete(p))
     };
 
-    
+    const onClose = async () => {
+       await setOpen(false);
+     };
+
     return (
 
         <Card sx={{ minWidth: 275 }} style={{ margin: 'auto', marginTop: '20px' }}>
             <CardContent>
-                
-               
-                <Typography variant="body2">
-                    {props.text}
+    
+                <Typography variant="body2">                   
+                    <div>name: {props.text.name}</div>
+                    <div>email: {props.text.email}</div>
+                    <div>address: {props.text.address}</div>
+                    <div>phone: {props.text.phone}</div>            
                     <br />
                 </Typography>
                 
             </CardContent>
             <CardActions style={{ justifyContent: 'space-evenly' }}>
-                <Button size="small" variant="outlined"> <DeleteIcon /></Button>
+                <Button size="small" variant="outlined" onClick={() => deletee(props.id)}> <DeleteIcon /></Button>
                
                 <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
-                    {open && <FormDialog text={props.text} id={props.id} />}
+                    {open && <FormDialog text={props.text.name} user={props.text} id={props.id} page={"editingUser"} openFunc={onClose} p={{todo:false,user:true,post:false}}/>}
                     <CreateIcon />
                 </Button>
              
@@ -50,3 +56,4 @@ export default function UserShow(props) {
         </Card>
     );
 }
+export default UserShow
