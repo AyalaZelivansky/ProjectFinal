@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
@@ -8,94 +7,113 @@ import Typography from '@mui/material/Typography';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import FormDialog from '../toDoPage/Editing';
+import FormDialog from "../Editing";
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useSelector,useDispatch } from 'react-redux';
-import { postDelete } from '../../store/postSlice';
+import { useDispatch } from 'react-redux';
+import { postDelete, postPutLike } from '../../store/postSlice';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-export default function PostShow(props) {
+const PostShow = (props) => {
+    const dispatch = useDispatch();
+    const [expanded, setExpanded] = useState(false);
+    const [longText, setLongText] = useState(props.text);
+    const [open, setOpen] = useState(false);
+    const [favoriteIconColor, setFavoriteIconColor] = useState(props.like);
+    // const [favoriteIconColor, setFavoriteIconColor] = useState(0);
 
-    const [expanded, setExpanded] = React.useState(false);
-    const dispatch = useDispatch()
+    const [favoriteIconBasic, setFavoriteIconBasic] = useState(!props.like);
+    // const [favoriteIconBasic, setFavoriteIconBasic] = useState(1);
 
-
-    const [longText, setLongText] = React.useState(props.text)
+    // console.log("favoriteIconBasic "+favoriteIconBasic);
+    // console.log("favoriteIconColor "+favoriteIconColor);
 
     const first50Words = longText.slice(0, 20);
-    const after50Words = longText.slice(20)
-
-
-    // console.log(first50Words);
+    const after50Words = longText.slice(20);
+    const posts = useSelector((myStore) => myStore.PostSlice.arr)
 
     const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
     };
 
-
-
-    const [open, setOpen] = React.useState(false);
-    const [favoriteIconColor, setFavoriteIconColor] = React.useState(false);
-    const [favoriteIconBasic, setFavoriteIconBasic] = React.useState(true);
-
-
-
     const handleClickOpen = () => {
         setOpen(true);
-
     };
+    // useEffect(() => {
+    //     console.log(favoriteIconColor);
+    // }, [favoriteIconColor]);
 
-
-    const changeColor1 = () => {
-
-        // console.log("col");
-        setFavoriteIconColor(true);
-        setFavoriteIconBasic(false)
+    const func = () => {
+        console.log(posts[1]);
+        dispatch(postPutLike(posts[1]))
 
     }
+
     const changeColor2 = () => {
+        console.log("favoriteIconColor" + favoriteIconColor);
+        console.log("favoriteIconBasic" + favoriteIconBasic);
+        debugger
+        setFavoriteIconColor(1);
+        setFavoriteIconBasic(2);
+        console.log("favoriteIconColor" + favoriteIconColor);
+        console.log("favoriteIconBasic" + favoriteIconBasic);
 
-        // console.log("col");
-        setFavoriteIconColor(false);
-        setFavoriteIconBasic(true)
+        func()
 
+        // dispatch(postPutLike({ id: props.id, like: favoriteIconColor }))
+
+        // setFavoriteIconColor(!favoriteIconBasic);
+        // setFavoriteIconBasic(!favoriteIconColor);
+    }
+    const changeColor1 = () => {
+        // debugger
+        // console.log("favoriteIconColor" + favoriteIconColor);
+        // console.log("favoriteIconBasic" + favoriteIconBasic);
+        setFavoriteIconColor(true);
+        setFavoriteIconBasic(false);
+        // console.log("favoriteIconColor" + favoriteIconColor);
+        // console.log("favoriteIconBasic" + favoriteIconBasic);
+        // dispatch(postPutLike({ id: props.id, like: favoriteIconColor }))
+        func()
     }
 
     const deletee = (p) => {
         dispatch(postDelete(p))
     };
+
+    const onClose = () => {
+        setOpen(false);
+    };
+
     return (
 
         <Card sx={{ minWidth: 275 }} style={{ margin: 'auto', marginTop: '20px' }}>
-            <CardContent>
 
-                {favoriteIconBasic && <FavoriteIcon onClick={() => { changeColor1() }} />}
-                {favoriteIconColor && <FavoriteIcon color="success" onClick={() => { changeColor2() }} />}
-
-                {/* <FavoriteIcon onClick={() => { handleClickOpen() }} /> */}
-                {/* <div >ayahahh</div> */}
-
-
+            <CardContent style={{ height: '180px' }}>
+                {favoriteIconBasic && <FavoriteIcon onClick={changeColor1} />}
+                {favoriteIconColor && <FavoriteIcon color="success" onClick={changeColor2} />}
+                {/* {favoriteIconBasic && <FavoriteIcon onClick={() => { dispatch(postPutLike({ id: props.id, like: true })) }} />}
+                {favoriteIconColor && <FavoriteIcon color="success" onClick={() => { dispatch(postPutLike({ id: props.id, like: false })) }} />} */}
 
                 <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                    {/* 15/10/22 */}
                     {props.id}
                 </Typography>
                 <Typography variant="body2" >
                     <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')} style={{ boxShadow: 'none' }}>
 
-                        <AccordionSummary
+                        {after50Words != "" &&
+                            <AccordionSummary
 
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls="panel1bh-content"
-                            id="panel1bh-header"
-                        >
-
-                            <Typography >{first50Words}</Typography>
-                        </AccordionSummary>
-
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1bh-content"
+                                id="panel1bh-header"
+                            >
+                                <Typography>{first50Words}</Typography>
+                            </AccordionSummary>
+                        }
                         <AccordionDetails>
                             <Typography >
                                 {after50Words}
@@ -103,25 +121,32 @@ export default function PostShow(props) {
                         </AccordionDetails>
                     </Accordion>
 
-                    {/* {'"a benevolent smile"'} */}
+                    {after50Words == "" &&
+                        <AccordionSummary
+
+
+                            aria-controls="panel1bh-content"
+                            id="panel1bh-header"
+                        >
+                            <Typography>{first50Words}</Typography>
+                        </AccordionSummary>
+                    }
                 </Typography>
                 <Typography variant="body2">
                     {props.time}
                     <br />
-                    {/* {'"a benevolent smile"'} */}
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small" variant="outlined" onClick={()=>{deletee(props.id)}}> <DeleteIcon /></Button>
+                <Button size="small" variant="outlined" onClick={() => { deletee(props.id) }}> <DeleteIcon /></Button>
                 <Button size="small" variant="outlined" onClick={() => { handleClickOpen() }}>
-                    {open && <FormDialog text={longText} page={"editingPost"} id={props.id} />}
                     <CreateIcon />
                 </Button>
+                {open && <FormDialog text={longText} page={"editingPost"} id={props.id} openFunc={onClose} like={favoriteIconColor} />}
             </CardActions>
 
-
-
-           
         </Card >
     );
 }
+
+export default PostShow
